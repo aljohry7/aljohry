@@ -7,7 +7,7 @@
 </head>
 <body>
 <title>Aljohry Arcade</title>
-<meta name="description" content="Retro-arcade cybersecurity portfolio for penetration tester Abdalezez Aljohry — a mission-select HUD built with pure CSS." />
+<meta name="description" content="Retro-arcade cybersecurity portfolio for Abdulaziz Aljohry — Cyber Security Engineer and Penetration Tester, Amman, Jordan." />
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Oxanium:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
@@ -781,9 +781,14 @@
   /* ============================================================
      FOOTER
      ============================================================ */
-  footer{ border-top:2px solid var(--border); margin-top:60px; padding:26px 0 46px; text-align:center; }
-  footer p{ font-family:var(--hud); font-size:.54rem; color:var(--muted); letter-spacing:1px; line-height:2.2; margin:0; }
-  footer b{ color:var(--green); }
+  footer{ border-top:2px solid var(--border); margin-top:60px; padding:28px 0 46px; }
+  .foot-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px 28px; max-width:900px; margin:0 auto 22px; }
+  .foot-grid > div{ min-width:0; font-family:var(--mono); font-size:var(--text-xs); color:var(--text-2); line-height:1.5; overflow-wrap:anywhere; }
+  .foot-grid b{ display:block; font-family:var(--hud); font-size:.44rem; letter-spacing:1px; color:var(--border-b); margin-bottom:5px; text-transform:uppercase; }
+  .foot-grid a{ color:var(--cyan); text-decoration:none; }
+  .foot-grid a:hover,.foot-grid a:focus-visible{ text-decoration:underline; }
+  .foot-copy{ font-family:var(--hud); font-size:.5rem; color:var(--muted); letter-spacing:1px; line-height:2; margin:0; text-align:center; }
+  .foot-copy span{ color:var(--border-b); margin-left:12px; }
 
   /* focus + reveal */
   a:focus-visible,button:focus-visible,summary:focus-visible,.item:focus-visible,.badge:focus-visible{
@@ -921,7 +926,7 @@
 
 <div id="boot" aria-hidden="true"><pre>
 <span class="bar">[ SYS ]</span> ALJOHRY BIOS v2.6
-<span class="bar">[ OK  ]</span> mounting /player/abdalezez
+<span class="bar">[ OK  ]</span> mounting /player/abdulaziz
 <span class="bar">[ OK  ]</span> loading skill tree ......... <span style="color:var(--success)">DONE</span>
 <span class="bar">[ OK  ]</span> decrypting mission log ..... <span style="color:var(--success)">DONE</span>
 <span class="bar">[ RUN ]</span> INSERT COIN TO CONTINUE<span class="cur">_</span>
@@ -978,7 +983,7 @@
       <div class="hero-in">
         <div>
           <p class="p1"><span class="blip"></span> PLAYER 01</p>
-          <h1>ABDALEZEZ <span>ALJOHRY</span></h1>
+          <h1>ABDULAZIZ <span>ALJOHRY</span></h1>
           <p class="role">Cyber Security Engineer<br><span>// Penetration Tester</span></p>
           <p class="desc">Offensive security, web &amp; network exploitation, and security automation. eJPT / CPTS / CWES certified, hunting live bug bounty targets, and sole builder of PENTRA &mdash; a full-workflow pentesting platform.</p>
           <div class="cta">
@@ -1263,7 +1268,7 @@
     <!-- ===== TERMINAL ===== -->
     <section class="sec wrap term-sec">
       <div class="term reveal">
-        <div class="tt-bar"><i></i><i></i><i></i> &nbsp; aljohry@ops — /player/abdalezez</div>
+        <div class="tt-bar"><i></i><i></i><i></i> &nbsp; aljohry@ops — /player/abdulaziz</div>
         <pre id="term"></pre>
       </div>
     </section>
@@ -1275,7 +1280,7 @@
         <div class="slot"><i class="sprite" data-sprite="coin" data-px="4" style="color:var(--gold)"></i> INSERT COIN</div>
         <p style="color:var(--muted);max-width:44ch;margin:0 auto 6px">Open to penetration testing engagements, security tooling work, and bug bounty collaboration.</p>
         <div class="links">
-          <a class="btn" href="mailto:aljohry7abd@gmail.com"><i class="sprite" data-sprite="bolt" data-px="3" style="color:var(--amber-bright)"></i> Initialize Contact</a>
+          <a class="btn" href="mailto:aljohry7abd@gmail.com"><i class="sprite" data-sprite="bolt" data-px="3" style="color:var(--amber-bright)"></i> aljohry7abd@gmail.com</a>
           <a class="btn ghost" href="tel:+962780519993">+962 78 051 9993</a>
           <a class="btn ghost" href="https://linkedin.com/in/abdalazez-aljohry-909116363" target="_blank" rel="noopener">LinkedIn</a>
           <a class="btn ghost" href="https://github.com/aljohry7" target="_blank" rel="noopener">GitHub</a>
@@ -1284,8 +1289,13 @@
     </section>
 
     <footer>
-      <p>&copy; 2026 ABDALEZEZ ALJOHRY &nbsp;//&nbsp; AMMAN, JORDAN</p>
-      <p><b>NO IMAGES LOADED</b> &nbsp;·&nbsp; PURE CSS BOX-SHADOW &nbsp;·&nbsp; 1 CREDIT = 1 PLAY</p>
+      <div class="foot-grid">
+        <div><b>Operator</b>Abdulaziz Aljohry</div>
+        <div><b>Role</b>Cyber Security Engineer &middot; Penetration Tester</div>
+        <div><b>Location</b>Amman, Jordan</div>
+        <div><b>Contact</b><a href="mailto:aljohry7abd@gmail.com">aljohry7abd@gmail.com</a></div>
+      </div>
+      <p class="foot-copy">&copy; 2026 ABDULAZIZ ALJOHRY &nbsp;//&nbsp; AMMAN, JORDAN <span>PLAYER_01</span></p>
     </footer>
   </div>
 </div>

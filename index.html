@@ -475,19 +475,130 @@
   /* ============================================================
      ARSENAL
      ============================================================ */
-  .arsenal{ display:grid; grid-template-columns:repeat(auto-fill,minmax(128px,1fr)); gap:14px; }
+  .arsenal{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px; }
   .item{
-    border:2px solid var(--border); background:var(--panel); padding:14px 10px; text-align:center;
-    transition:border-color .1s var(--step), background .1s var(--step), transform .05s var(--step);
+    border:2px solid var(--border); background:var(--panel); overflow:hidden;
+    transition:border-color .18s var(--step), background .18s var(--step),
+               transform .18s var(--step), box-shadow .18s var(--step);
   }
-  .item:hover{ border-color:var(--border-b); background:var(--panel-h); transform:translateY(-3px); }
-  .item .mono{
-    width:44px; height:44px; margin:0 auto 10px; display:flex; align-items:center; justify-content:center;
-    border:2px solid var(--border-b); color:var(--amber);
-    font-family:var(--hud); font-size:.6rem; background:#0c1417;
+  .item:hover,.item:focus-within{
+    border-color:var(--border-b); background:var(--panel-h); transform:translateY(-3px);
+    box-shadow:0 0 22px -10px rgba(255,178,32,.5);
   }
-  .item .nm{ font-family:var(--hud); font-size:.44rem; letter-spacing:.5px; color:var(--white); text-transform:uppercase; line-height:1.5; }
-  .item .eq{ font-family:var(--hud); font-size:.36rem; letter-spacing:1px; color:var(--teal); margin-top:7px; }
+  .item:focus-visible{ outline:2px solid var(--amber); outline-offset:2px; }
+
+  .viz{
+    height:74px; position:relative; overflow:hidden; border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg,#0b1216,#0e161b); --rate:1;
+  }
+  .viz svg{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+  .viz .stroke{ fill:none; stroke:var(--cyan-dark); stroke-width:1; }
+  .viz .node{ fill:#0b1216; stroke:var(--cyan-dark); stroke-width:1; }
+  .viz .win{ fill:#0b1216; stroke:var(--border-b); stroke-width:1; }
+  .viz .bar{ fill:var(--surface-2); }
+  .viz .a{ fill:var(--amber); } .viz .ab{ fill:var(--amber-bright); }
+  .viz .c{ fill:var(--cyan); } .viz .cb{ fill:var(--cyan-bright); }
+  .viz .r{ fill:var(--danger); } .viz .d{ fill:var(--text-muted); }
+  .viz .sc{ stroke:var(--cyan); stroke-width:1; fill:none; opacity:.6; }
+  .viz .sa{ stroke:var(--amber); stroke-width:1; fill:none; }
+  .viz text{ font-family:var(--hud); font-size:4px; fill:var(--text-muted); letter-spacing:.3px; }
+  .item:hover .viz,.item:focus-within .viz{ --rate:.58; filter:brightness(1.14) saturate(1.18); }
+
+  .ibody{ padding:9px 10px 11px; }
+  .item .nm{ font-family:var(--hud); font-size:.44rem; letter-spacing:.5px; color:var(--text); text-transform:uppercase; line-height:1.5; }
+  .item:hover .nm,.item:focus-within .nm{ color:var(--amber-bright); }
+  .item .sub{ font-family:var(--hud); font-size:.32rem; letter-spacing:1px; color:var(--cyan); margin-top:4px; text-transform:uppercase; }
+  .item .foot{ margin-top:7px; min-height:9px; }
+  .item .eq{ font-family:var(--hud); font-size:.32rem; letter-spacing:1px; color:var(--text-muted); text-transform:uppercase; }
+  .item .hud{ font-family:var(--hud); font-size:.32rem; letter-spacing:1px; color:var(--amber); text-transform:uppercase; display:none; }
+  .item:hover .eq,.item:focus-within .eq{ display:none; }
+  .item:hover .hud,.item:focus-within .hud{ display:inline; }
+
+  @media (prefers-reduced-motion: no-preference){
+    .viz .z{ animation-duration:calc(var(--d,3s) * var(--rate)); animation-iteration-count:infinite;
+             animation-timing-function:linear; animation-fill-mode:none; }
+    .v-nmap .p{ --d:3s; animation-name:arsNmPulse; }
+    .v-nmap .h1{ --d:3s; animation-name:arsNmHit; }
+    .v-nmap .h2{ --d:3s; animation-name:arsNmHit; animation-delay:calc(var(--d)*var(--rate)*.30); }
+    .v-nmap .h3{ --d:3s; animation-name:arsNmHit; animation-delay:calc(var(--d)*var(--rate)*.60); }
+    .v-nmap .h4{ --d:3s; animation-name:arsNmHit; animation-delay:calc(var(--d)*var(--rate)*.90); }
+    .v-burp .pkt{ --d:3.2s; animation-name:arsBpPkt; }
+    .v-burp .prox{ --d:3.2s; animation-name:arsBpFlash; }
+    .v-zap .beam{ --d:2.6s; animation-name:arsZpBeam; }
+    .v-zap .mk{ --d:2.6s; animation-name:arsZpMk; }
+    .v-zap .eye{ --d:1.4s; animation-name:arsPulseA; }
+    .v-msf .l1{ --d:2.4s; animation-name:arsMsScroll; }
+    .v-msf .l2{ --d:2.4s; animation-name:arsMsScroll; animation-delay:calc(var(--d)*var(--rate)*-.33); }
+    .v-msf .l3{ --d:2.4s; animation-name:arsMsScroll; animation-delay:calc(var(--d)*var(--rate)*-.66); }
+    .v-msf .pay{ --d:2s; animation-name:arsMsPay; }
+    .v-wire .pk{ --d:3s; animation-name:arsWsFlow; }
+    .v-wire .scan{ --d:2.4s; animation-name:arsWsScan; animation-timing-function:ease-in-out; }
+    .v-sql .cyl{ --d:2.6s; animation-name:arsPulseA; }
+    .v-sql .f1{ --d:3.4s; animation-name:arsSqFrag; }
+    .v-sql .f2{ --d:3.4s; animation-name:arsSqFrag; animation-delay:calc(var(--d)*var(--rate)*-.4); }
+    .v-sql .f3{ --d:3.4s; animation-name:arsSqFrag; animation-delay:calc(var(--d)*var(--rate)*-.8); }
+    .v-ffuf .hl{ --d:2.5s; animation-name:arsFfHl; animation-timing-function:steps(5); }
+    .v-ffuf .p1{ --d:1.6s; animation-name:arsFfBlink; }
+    .v-ffuf .p2{ --d:1.6s; animation-name:arsFfBlink; animation-delay:calc(var(--d)*var(--rate)*-.2); }
+    .v-ffuf .p3{ --d:1.6s; animation-name:arsFfBlink; animation-delay:calc(var(--d)*var(--rate)*-.4); }
+    .v-ffuf .p4{ --d:1.6s; animation-name:arsFfBlink; animation-delay:calc(var(--d)*var(--rate)*-.6); }
+    .v-ffuf .p5{ --d:1.6s; animation-name:arsFfBlink; animation-delay:calc(var(--d)*var(--rate)*-.8); }
+    .v-hydra .k1{ --d:2.7s; animation-name:arsHyLock; }
+    .v-hydra .k2{ --d:2.7s; animation-name:arsHyLock; animation-delay:calc(var(--d)*var(--rate)*.33); }
+    .v-hydra .k3{ --d:2.7s; animation-name:arsHyLock; animation-delay:calc(var(--d)*var(--rate)*.66); }
+    .v-john .fill{ --d:3s; animation-name:arsJnFill; animation-timing-function:ease-out; }
+    .v-john .an{ --d:3s; animation-name:arsBlink; }
+    .v-ghidra .bin{ --d:3.4s; animation-name:arsGhBin; }
+    .v-ghidra .ops{ --d:3.4s; animation-name:arsGhOps; }
+    .v-nessus .beam{ --d:2.8s; animation-name:arsNeBeam; }
+    .v-nessus .hit{ --d:2.8s; animation-name:arsNeHit; }
+    .v-py .s1{ --d:5s; animation-name:arsPySnake; }
+    .v-py .s2{ --d:5s; animation-name:arsPySnake; animation-delay:calc(var(--d)*var(--rate)*-.05); }
+    .v-py .s3{ --d:5s; animation-name:arsPySnake; animation-delay:calc(var(--d)*var(--rate)*-.10); }
+    .v-py .s4{ --d:5s; animation-name:arsPySnake; animation-delay:calc(var(--d)*var(--rate)*-.15); }
+    .v-py .s5{ --d:5s; animation-name:arsPySnake; animation-delay:calc(var(--d)*var(--rate)*-.20); }
+    .v-fapi .req1{ --d:3s; animation-name:arsFaReq; }
+    .v-fapi .req2{ --d:3s; animation-name:arsFaReq; animation-delay:calc(var(--d)*var(--rate)*-.5); }
+    .v-pw .cur{ --d:4s; animation-name:arsPwCur; animation-timing-function:ease-in-out; }
+    .v-pw .b1{ --d:4s; animation-name:arsPwB; }
+    .v-pw .b2{ --d:4s; animation-name:arsPwB; animation-delay:calc(var(--d)*var(--rate)*.33); }
+    .v-pw .b3{ --d:4s; animation-name:arsPwB; animation-delay:calc(var(--d)*var(--rate)*.66); }
+    .v-kali .t1{ --d:3s; animation-name:arsKlType; animation-timing-function:steps(14); }
+    .v-kali .t2{ --d:3s; animation-name:arsKlType; animation-timing-function:steps(14); animation-delay:calc(var(--d)*var(--rate)*-.33); }
+    .v-kali .t3{ --d:3s; animation-name:arsKlType; animation-timing-function:steps(14); animation-delay:calc(var(--d)*var(--rate)*-.66); }
+    .v-kali .cur{ --d:1s; animation-name:arsKlCur; animation-timing-function:steps(1); }
+    .v-git .head{ --d:4s; animation-name:arsGtHead; animation-timing-function:ease-in-out; }
+    .v-git .pz{ --d:2.4s; animation-name:arsPulseA; }
+
+    @keyframes arsNmPulse{ 0%{transform:translateX(8px);opacity:0} 8%{opacity:1} 92%{opacity:1} 100%{transform:translateX(96px);opacity:0} }
+    @keyframes arsNmHit{ 0%,100%{fill:#0b1216} 5%{fill:var(--amber)} 13%{fill:#0b1216} }
+    @keyframes arsBpPkt{ 0%{transform:translateX(10px);opacity:0} 6%{opacity:1} 30%{transform:translateX(40px)} 44%{transform:translateX(40px)} 94%{opacity:1} 100%{transform:translateX(84px);opacity:0} }
+    @keyframes arsBpFlash{ 0%,28%{stroke:var(--cyan-dark);fill:#0b1216} 34%{stroke:var(--amber);fill:#241b06} 46%{stroke:var(--amber)} 54%,100%{stroke:var(--border-b);fill:#0b1216} }
+    @keyframes arsZpBeam{ 0%{transform:translateX(0)} 100%{transform:translateX(64px)} }
+    @keyframes arsZpMk{ 0%,58%{opacity:0} 66%{opacity:1} 90%{opacity:1} 100%{opacity:0} }
+    @keyframes arsPulseA{ 0%,100%{opacity:.42} 50%{opacity:1} }
+    @keyframes arsBlink{ 0%,100%{opacity:.2} 50%{opacity:1} }
+    @keyframes arsMsScroll{ 0%{transform:translateY(8px);opacity:0} 18%{opacity:1} 82%{opacity:1} 100%{transform:translateY(-8px);opacity:0} }
+    @keyframes arsMsPay{ 0%{transform:translateX(0);opacity:0} 12%{opacity:1} 88%{opacity:1} 100%{transform:translateX(28px);opacity:0} }
+    @keyframes arsWsFlow{ from{transform:translateX(-14px)} to{transform:translateX(118px)} }
+    @keyframes arsWsScan{ 0%,100%{transform:translateX(6px)} 50%{transform:translateX(88px)} }
+    @keyframes arsSqFrag{ 0%{transform:translateX(92px);opacity:0} 12%{opacity:1} 88%{opacity:1} 100%{transform:translateX(-28px);opacity:0} }
+    @keyframes arsFfHl{ from{transform:translateY(0)} to{transform:translateY(32px)} }
+    @keyframes arsFfBlink{ 0%,100%{opacity:.22} 50%{opacity:.72} }
+    @keyframes arsHyLock{ 0%,100%{fill:#0b1216;stroke:var(--cyan-dark)} 40%{fill:#241b06;stroke:var(--amber)} 58%{stroke:var(--amber)} }
+    @keyframes arsJnFill{ 0%{width:2px} 70%{width:80px} 86%{width:80px} 100%{width:2px} }
+    @keyframes arsGhBin{ 0%,42%{opacity:1} 54%,100%{opacity:0} }
+    @keyframes arsGhOps{ 0%,42%{opacity:0} 54%,100%{opacity:1} }
+    @keyframes arsNeBeam{ 0%{transform:translateY(0)} 100%{transform:translateY(26px)} }
+    @keyframes arsNeHit{ 0%,52%{opacity:0} 62%{opacity:1} 92%{opacity:1} 100%{opacity:0} }
+    @keyframes arsPySnake{ 0%{transform:translate(4px,8px)} 23%{transform:translate(4px,30px)} 27%{transform:translate(4px,30px)} 48%{transform:translate(30px,30px)} 52%{transform:translate(30px,30px)} 73%{transform:translate(30px,8px)} 77%{transform:translate(30px,8px)} 100%{transform:translate(4px,8px)} }
+    @keyframes arsFaReq{ 0%{transform:translateX(0);opacity:0} 8%{opacity:1} 42%{transform:translateX(40px)} 52%{transform:translateX(40px)} 92%{opacity:1} 100%{transform:translateX(80px);opacity:0} }
+    @keyframes arsPwCur{ 0%{transform:translate(24px,30px)} 20%{transform:translate(21px,20px)} 24%{transform:translate(21px,20px) scale(.82)} 28%{transform:translate(21px,20px)} 52%{transform:translate(49px,20px)} 56%{transform:translate(49px,20px) scale(.82)} 60%{transform:translate(49px,20px)} 88%{transform:translate(77px,20px)} 100%{transform:translate(24px,30px)} }
+    @keyframes arsPwB{ 0%,20%{fill:#0b1216} 26%{fill:var(--amber)} 34%{fill:#0b1216} 100%{fill:#0b1216} }
+    @keyframes arsKlType{ 0%{width:0} 60%{width:var(--w,40px)} 100%{width:var(--w,40px)} }
+    @keyframes arsKlCur{ 50%{opacity:0} }
+    @keyframes arsGtHead{ 0%{transform:translateX(0)} 45%{transform:translateX(22px)} 55%{transform:translateX(22px)} 100%{transform:translateX(66px)} }
+  }
 
   /* ============================================================
      CARTRIDGES
@@ -859,24 +970,7 @@
       <div class="sec-head reveal"><span class="idx">04</span><h2>Arsenal</h2><span class="line"></span></div>
       <div class="panel reveal">
         <p class="eyebrow">Inventory · Equipped</p>
-        <div class="arsenal">
-          <div class="item"><div class="mono">NM</div><div class="nm">Nmap</div><div class="eq">Equipped</div></div>
-          <div class="item"><div class="mono">BP</div><div class="nm">Burp Suite</div><div class="eq">Equipped</div></div>
-          <div class="item"><div class="mono">ZP</div><div class="nm">OWASP ZAP</div><div class="eq">Equipped</div></div>
-          <div class="item"><div class="mono">MSF</div><div class="nm">Metasploit</div><div class="eq">Equipped</div></div>
-          <div class="item"><div class="mono">WS</div><div class="nm">Wireshark</div><div class="eq">Equipped</div></div>
-          <div class="item"><div class="mono">SQL</div><div class="nm">SQLmap</div><div class="eq">Equipped</div></div>
-          <div class="item"><div class="mono">FF</div><div class="nm">ffuf / Gobuster</div><div class="eq">Equipped</div></div>
-          <div class="item"><div class="mono">HY</div><div class="nm">Hydra</div><div class="eq">Equipped</div></div>
-          <div class="item"><div class="mono">JTR</div><div class="nm">John</div><div class="eq">Equipped</div></div>
-          <div class="item"><div class="mono">GH</div><div class="nm">Ghidra</div><div class="eq">Equipped</div></div>
-          <div class="item"><div class="mono">NS</div><div class="nm">Nessus</div><div class="eq">Equipped</div></div>
-          <div class="item"><div class="mono">PY</div><div class="nm">Python</div><div class="eq">Equipped</div></div>
-          <div class="item"><div class="mono">API</div><div class="nm">FastAPI</div><div class="eq">Equipped</div></div>
-          <div class="item"><div class="mono">PW</div><div class="nm">Playwright</div><div class="eq">Equipped</div></div>
-          <div class="item"><div class="mono">KL</div><div class="nm">Kali Linux</div><div class="eq">Equipped</div></div>
-          <div class="item"><div class="mono">GIT</div><div class="nm">Git</div><div class="eq">Equipped</div></div>
-        </div>
+        <div class="arsenal" id="arsenal-grid"></div>
       </div>
     </section>
 
@@ -1478,6 +1572,137 @@
       c.textContent="LOCAL "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");
     }
     t(); setInterval(t,30000);
+  })();
+  /* ===== ARSENAL — animated equipment visuals (SVG + CSS, no assets) ===== */
+  (function(){
+    var grid = document.getElementById("arsenal-grid");
+    if(!grid) return;
+    function S(inner){ return '<svg viewBox="0 0 104 44" aria-hidden="true">'+inner+'</svg>'; }
+
+    var nmap = S(
+      '<line class="stroke" x1="14" y1="22" x2="40" y2="13"/><line class="stroke" x1="40" y1="13" x2="66" y2="31"/><line class="stroke" x1="66" y1="31" x2="92" y2="17"/>'
+      +'<circle class="node z h1" cx="14" cy="22" r="3.2"/><circle class="node z h2" cx="40" cy="13" r="3.2"/><circle class="node z h3" cx="66" cy="31" r="3.2"/><circle class="node z h4" cx="92" cy="17" r="3.2"/>'
+      +'<circle class="a z p" cx="8" cy="22" r="2.2"/>');
+
+    var burp = S(
+      '<rect class="win" x="4" y="14" width="22" height="16"/><rect class="win z prox" x="41" y="12" width="22" height="20"/><rect class="win" x="78" y="14" width="22" height="16"/>'
+      +'<text x="7" y="39">CLIENT</text><text x="44" y="9">PROXY</text><text x="80" y="39">SERVER</text>'
+      +'<line class="stroke" x1="26" y1="22" x2="41" y2="22"/><line class="stroke" x1="63" y1="22" x2="78" y2="22"/>'
+      +'<rect class="a z pkt" x="10" y="20" width="4" height="4"/>');
+
+    var zap = S(
+      '<rect class="win" x="6" y="13" width="15" height="14"/><circle class="a z eye" cx="13.5" cy="20" r="1.7"/>'
+      +'<rect class="win" x="54" y="6" width="40" height="8"/><rect class="win" x="54" y="18" width="40" height="8"/><rect class="win" x="54" y="30" width="40" height="8"/>'
+      +'<line class="sc z beam" x1="28" y1="3" x2="28" y2="41"/><circle class="r z mk" cx="90" cy="22" r="2"/>');
+
+    var msf = S(
+      '<rect class="win" x="4" y="6" width="58" height="32"/><rect class="bar" x="4" y="6" width="58" height="5"/>'
+      +'<clipPath id="mclip"><rect x="5" y="11" width="56" height="26"/></clipPath>'
+      +'<g clip-path="url(#mclip)"><rect class="c z l1" x="8" y="16" width="30" height="2.4"/><rect class="c z l2" x="8" y="22" width="42" height="2.4"/><rect class="c z l3" x="8" y="28" width="22" height="2.4"/></g>'
+      +'<circle class="node" cx="94" cy="22" r="4"/><circle class="a z pay" cx="64" cy="22" r="2"/>');
+
+    var wire = S(
+      '<line class="stroke" x1="0" y1="31" x2="104" y2="31"/>'
+      +'<rect class="c z pk" x="0" y="19" width="7" height="6"/><rect class="a z pk" x="26" y="19" width="7" height="6"/>'
+      +'<rect class="cb z pk" x="52" y="19" width="7" height="6"/><rect class="d z pk" x="78" y="19" width="7" height="6"/>'
+      +'<line class="sa z scan" x1="6" y1="6" x2="6" y2="38"/>');
+
+    var sql = S(
+      '<g class="z cyl"><ellipse class="stroke" cx="52" cy="12" rx="13" ry="3.5"/><path class="stroke" d="M39 12 V32 A13 3.5 0 0 0 65 32 V12"/><line class="stroke" x1="39" y1="22" x2="65" y2="22"/></g>'
+      +'<rect class="a z f1" x="0" y="6" width="14" height="3.4"/><rect class="a z f2" x="0" y="20" width="10" height="3.4"/><rect class="a z f3" x="0" y="34" width="16" height="3.4"/>');
+
+    var ffuf = (function(){
+      var y=[5,13,21,29,37], w=[52,44,58,38,48], inner='';
+      for(var i=0;i<5;i++) inner+='<rect class="d z p'+(i+1)+'" x="10" y="'+y[i]+'" width="'+w[i]+'" height="4"/>';
+      inner+='<rect class="a z hl" x="7" y="4" width="64" height="6" opacity=".85"/>';
+      return S(inner);
+    })();
+
+    var hydra = S(
+      '<circle class="a" cx="16" cy="22" r="4"/>'
+      +'<line class="stroke" x1="20" y1="22" x2="58" y2="10"/><line class="stroke" x1="20" y1="22" x2="58" y2="22"/><line class="stroke" x1="20" y1="22" x2="58" y2="34"/>'
+      +'<rect class="win z k1" x="58" y="6" width="8" height="8"/><rect class="win z k2" x="58" y="18" width="8" height="8"/><rect class="win z k3" x="58" y="30" width="8" height="8"/>');
+
+    var john = S(
+      '<rect class="win" x="4" y="7" width="22" height="9"/><text x="7" y="13.5">HASH</text>'
+      +'<path class="stroke" d="M27 11.5 H36"/>'
+      +'<rect class="win" x="6" y="24" width="86" height="7"/><rect class="a z fill" x="7" y="25" width="46" height="5"/>'
+      +'<text class="z an" x="6" y="40">ANALYZING</text>');
+
+    var ghidra = (function(){
+      var bits='', k=0;
+      for(var row=0;row<3;row++) for(var col=0;col<7;col++){ bits+='<rect class="'+((k++%3)?'d':'a')+'" x="'+(6+col*4)+'" y="'+(8+row*7)+'" width="2.4" height="3.6"/>'; }
+      var ops='<rect class="win" x="58" y="7" width="30" height="8"/><text x="61" y="13">MOV</text>'
+             +'<rect class="win" x="58" y="18" width="30" height="8"/><text x="61" y="24">CALL</text>'
+             +'<rect class="win" x="58" y="29" width="30" height="8"/><text x="61" y="35">JMP</text>';
+      return S('<g class="z bin">'+bits+'</g><g class="z ops">'+ops+'</g>');
+    })();
+
+    var nessus = S(
+      '<rect class="win" x="10" y="6" width="46" height="8"/><rect class="win" x="10" y="17" width="46" height="8"/><rect class="win" x="10" y="28" width="46" height="8"/>'
+      +'<line class="sc z beam" x1="8" y1="6" x2="58" y2="6"/><circle class="a z hit" cx="70" cy="21" r="2.4"/>');
+
+    var py = (function(){
+      var seg='';
+      for(var i=1;i<=5;i++) seg+='<rect class="'+(i===1?'a':'c')+' z s'+i+'" x="0" y="0" width="4.4" height="4.4"/>';
+      return S('<rect class="win" x="40" y="6" width="60" height="30"/>'
+        +'<rect class="c" x="45" y="13" width="34" height="2.2"/><rect class="c" x="49" y="20" width="24" height="2.2"/><rect class="d" x="45" y="27" width="18" height="2.2"/>'
+        +'<text x="45" y="12">def scan():</text>'
+        +seg);
+    })();
+
+    var fapi = S(
+      '<circle class="node" cx="12" cy="22" r="4"/><circle class="node" cx="52" cy="22" r="5"/><circle class="node" cx="92" cy="22" r="4"/>'
+      +'<text x="3" y="37">CLIENT</text><text x="47" y="10">API</text><text x="86" y="37">DB</text>'
+      +'<line class="stroke" x1="16" y1="22" x2="47" y2="22"/><line class="stroke" x1="57" y1="22" x2="88" y2="22"/>'
+      +'<circle class="c z req1" cx="12" cy="22" r="2"/><circle class="a z req2" cx="12" cy="22" r="2"/>');
+
+    var pw = S(
+      '<rect class="win" x="5" y="5" width="94" height="34"/><rect class="bar" x="5" y="5" width="94" height="6"/>'
+      +'<circle class="d" cx="10" cy="8" r="1"/><circle class="d" cx="14" cy="8" r="1"/><circle class="d" cx="18" cy="8" r="1"/>'
+      +'<rect class="win z b1" x="12" y="18" width="22" height="9"/><rect class="win z b2" x="40" y="18" width="22" height="9"/><rect class="win z b3" x="68" y="18" width="22" height="9"/>'
+      +'<path class="a z cur" d="M0 0 L0 8 L2.2 6 L4 9 L5.2 8 L3.4 5 L6 4.6 Z"/>');
+
+    var kali = S(
+      '<rect class="win" x="4" y="4" width="96" height="36"/>'
+      +'<rect class="a" x="8" y="9" width="20" height="3.4"/>'
+      +'<rect class="c z t1" x="8" y="17" width="52" height="3" style="--w:52px"/>'
+      +'<rect class="c z t2" x="8" y="24" width="38" height="3" style="--w:38px"/>'
+      +'<rect class="c z t3" x="8" y="31" width="60" height="3" style="--w:60px"/>'
+      +'<rect class="ab z cur" x="9" y="31" width="3" height="3.6"/>');
+
+    var git = S(
+      '<line class="stroke" x1="8" y1="28" x2="96" y2="28"/><path class="stroke" d="M40 28 C48 28 48 12 56 12 H68 C76 12 76 28 84 28"/>'
+      +'<circle class="node z pz" cx="18" cy="28" r="2.6"/><circle class="node" cx="40" cy="28" r="2.6"/><circle class="node z pz" cx="84" cy="28" r="2.6"/>'
+      +'<circle class="node z pz" cx="56" cy="12" r="2.6"/><circle class="node" cx="68" cy="12" r="2.6"/>'
+      +'<circle class="a z head" cx="18" cy="28" r="3"/>');
+
+    var TOOLS = [
+      ["nmap","Nmap","Network Scanner","Scanning",nmap],
+      ["burp","Burp Suite","Intercept Proxy","Intercept",burp],
+      ["zap","OWASP ZAP","App Scanner","Scanning",zap],
+      ["msf","Metasploit","Exploit Console","Staging",msf],
+      ["wire","Wireshark","Packet Analysis","Capturing",wire],
+      ["sql","SQLmap","SQL Injection","Probing",sql],
+      ["ffuf","ffuf / Gobuster","Path Discovery","Fuzzing",ffuf],
+      ["hydra","Hydra","Auth Testing","Bruteforce",hydra],
+      ["john","John","Hash Cracking","Analyzing",john],
+      ["ghidra","Ghidra","Reverse Engineering","Disasm",ghidra],
+      ["nessus","Nessus","Vuln Scanner","Inspecting",nessus],
+      ["py","Python","Automation","Running",py],
+      ["fapi","FastAPI","API Framework","Routing",fapi],
+      ["pw","Playwright","Browser Automation","Driving",pw],
+      ["kali","Kali Linux","Operating System","Online",kali],
+      ["git","Git","Version Control","Synced",git]
+    ];
+
+    grid.innerHTML = TOOLS.map(function(t){
+      return '<div class="item" tabindex="0" aria-label="'+t[1]+' — '+t[2]+', equipped">'
+        + '<div class="viz v-'+t[0]+'">'+t[4]+'</div>'
+        + '<div class="ibody"><div class="nm">'+t[1]+'</div><div class="sub">'+t[2]+'</div>'
+        + '<div class="foot"><span class="eq">Equipped</span><span class="hud">[ '+t[3]+' ]</span></div></div>'
+        + '</div>';
+    }).join("");
   })();
 </script>
 </body>

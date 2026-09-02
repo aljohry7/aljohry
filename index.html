@@ -176,10 +176,14 @@
   /* --- sidebar fill: operator card + ops telemetry + clock + tick rail --- */
   .side-op{ margin:16px 14px 0; padding:11px 12px; border:2px solid var(--border); background:var(--panel); }
   .side-op .cs{ font-family:var(--hud); font-size:.54rem; letter-spacing:1px; color:var(--amber); text-transform:uppercase; }
-  .side-op .lv{ font-family:var(--hud); font-size:.72rem; letter-spacing:1px; color:var(--text-muted); margin:7px 0 8px; }
+  .side-op .lv{ display:flex; justify-content:space-between; align-items:baseline; gap:8px;
+    font-family:var(--hud); font-size:.5rem; letter-spacing:1px; color:var(--text-2); margin:7px 0 9px; }
+  .side-op .lv .lvn{ color:var(--amber); }
   .side-op .xp{ height:6px; border:1px solid var(--border-bright); background:#0b1216; }
   .side-op .xp i{ display:block; height:100%; width:72%; background:var(--amber); box-shadow:0 0 10px -2px var(--amber); }
-  .side-ops{ margin:14px 16px 0; display:flex; flex-direction:column; gap:9px; }
+  .side-metrics{ margin:16px 14px 0; }
+  .side-metrics .cs{ font-family:var(--hud); font-size:.44rem; letter-spacing:2px; color:var(--amber); text-transform:uppercase; margin:0 0 10px 2px; }
+  .side-ops{ display:flex; flex-direction:column; gap:10px; }
   /* stacked: pixel labels are too wide to sit beside the meter in a 180px
      sidebar column without clipping — label on its own line, bar under it. */
   .side-ops .r{ display:flex; flex-direction:column; align-items:stretch; gap:4px;
@@ -192,13 +196,9 @@
     .side-ops .r i b{ animation:soPulse 3.2s ease-in-out infinite; }
     @keyframes soPulse{ 0%,100%{ opacity:.68; } 50%{ opacity:1; } }
   }
-  .side-clock{ margin:15px 18px 0; font-family:var(--hud); font-size:.84rem; letter-spacing:2px; color:var(--cyan); }
-  .side-rail{
-    flex:1; min-height:22px; margin:14px 18px;
-    background:repeating-linear-gradient(0deg, transparent 0 9px, var(--border) 9px 10px); opacity:.55;
-  }
+  .side-clock{ margin:12px 0 0 2px; font-family:var(--hud); font-size:.66rem; letter-spacing:2px; color:var(--cyan); }
   .side .sys{
-    margin-top:0; padding:13px 18px 6px; border-top:2px solid var(--border);
+    margin-top:auto; padding:14px 18px 6px; border-top:2px solid var(--border);
     font-family:var(--mono); font-size:var(--text-xs); color:var(--text-2); line-height:1.8;
   }
   .side .sys .dot{
@@ -495,10 +495,27 @@
   .state.active{ color:var(--green); border-color:var(--green); }
   .state.done{ color:var(--success); border-color:var(--success); }
   .state.locked{ color:var(--muted); border-color:var(--border); }
-  .mission-meta{ display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px 18px; margin-bottom:14px; }
+  .mission-meta{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px 20px; margin-bottom:14px; }
+  @media (max-width:660px){ .mission-meta{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media (max-width:380px){ .mission-meta{ grid-template-columns:1fr; } }
   .mission-meta div{ font-size:var(--text-xs); line-height:1.55; color:var(--muted); }
   .mission-meta b{ display:block; font-family:var(--hud); font-size:.72rem; letter-spacing:1px; color:var(--border-b); margin-bottom:5px; text-transform:uppercase; }
   .mission ul{ list-style:none; margin:0; padding:0; }
+
+  /* Class & Background panel — description over a balanced metadata grid,
+     status pinned to the panel floor so the panel reads as intentionally full */
+  #stats .grid.two > .panel{ display:flex; flex-direction:column; }
+  .cb-lede{ color:var(--white); margin:0 0 18px; line-height:1.7; }
+  .kv{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px clamp(16px,2vw,30px); }
+  .kv > div{ min-width:0; font-size:var(--text-sm); color:var(--white); line-height:1.5; overflow-wrap:anywhere; }
+  .kv b{ display:block; font-family:var(--hud); font-size:.5rem; letter-spacing:1px; color:var(--border-b); margin-bottom:5px; text-transform:uppercase; }
+  .kv-status{
+    margin-top:auto; padding-top:16px; border-top:2px solid var(--border);
+    display:flex; align-items:center; gap:9px;
+    font-family:var(--hud); font-size:.5rem; letter-spacing:1px; text-transform:uppercase; color:var(--success);
+  }
+  .kv-status .dot-ok{ width:7px; height:7px; flex:none; background:var(--success); box-shadow:0 0 8px -1px var(--success); }
+  @media (max-width:520px){ .kv{ grid-template-columns:1fr; } }
   .mission li{ position:relative; padding-left:22px; margin-bottom:9px; color:var(--white); max-width:74ch; font-size:var(--text-base); line-height:1.7; }
   .mission li::before{ content:">"; position:absolute; left:0; color:var(--green); font-family:var(--mono); }
   .mission.is-locked{ opacity:.55; }
@@ -637,8 +654,28 @@
   /* ============================================================
      CARTRIDGES
      ============================================================ */
-  .cartridge{ position:relative; border:2px solid var(--border); background:var(--panel); padding:0; overflow:hidden; }
-  .cartridge .head{ display:flex; gap:18px; padding:22px; align-items:flex-start; }
+  .cartridge{
+    position:relative; border:2px solid var(--border); background:var(--panel); padding:0; overflow:hidden;
+    display:grid; grid-template-columns:minmax(0,1fr) minmax(190px,.34fr);
+  }
+  .cartridge > .boot,
+  .cartridge > details,
+  .cartridge > .load{ grid-column:1 / -1; }
+  .cartridge .head{ display:flex; gap:18px; padding:22px; align-items:flex-start; min-width:0; }
+  .cartridge .cart-body{ min-width:0; }
+  .cart-info{
+    border-left:2px solid var(--border); padding:22px; display:flex; flex-direction:column; gap:13px;
+  }
+  .cart-info .ci-eye{
+    margin:0 0 2px; font-family:var(--hud); font-size:.44rem; letter-spacing:2px;
+    text-transform:uppercase; color:var(--teal);
+  }
+  .cart-info .ci{ font-family:var(--mono); font-size:var(--text-sm); color:var(--white); line-height:1.45; overflow-wrap:anywhere; }
+  .cart-info .ci b{ display:block; font-family:var(--hud); font-size:.44rem; letter-spacing:1px; color:var(--border-b); margin-bottom:4px; text-transform:uppercase; }
+  @media (max-width:720px){
+    .cartridge{ grid-template-columns:1fr; }
+    .cart-info{ border-left:0; border-top:2px solid var(--border); }
+  }
   .cartridge .chip{
     flex:none; width:96px; height:96px; border:2px solid var(--border-b); background:#0c1417;
     display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
@@ -701,6 +738,7 @@
   /* ============================================================
      TERMINAL
      ============================================================ */
+  .term-sec{ padding-block:clamp(18px,2.4vw,34px) clamp(10px,1.1vw,18px); }
   .term{ border:2px solid var(--border); background:#0a1013; }
   .term .tt-bar{
     display:flex; align-items:center; gap:8px; padding:9px 12px;
@@ -710,7 +748,7 @@
   .term .tt-bar i{ width:8px; height:8px; background:var(--border-b); display:inline-block; }
   .term pre{
     margin:0; padding:16px; font-family:var(--mono); font-size:var(--text-sm); line-height:1.85;
-    color:var(--cyan); white-space:pre-wrap; min-height:150px;
+    color:var(--cyan); white-space:pre-wrap;
   }
   .term pre .pr{ color:var(--teal); }
   .term pre .out{ color:var(--white); }
@@ -805,7 +843,7 @@
     .side nav a.active::after{ display:none; }
     .side nav a.active{ box-shadow:inset 3px 0 0 var(--amber); }
 
-    .side .sys,.side-op,.side-ops,.side-clock,.side-rail{ display:none; }
+    .side .sys,.side-op,.side-metrics{ display:none; }
 
     .wrap{ width:100%; max-width:none; padding:0 16px; }
     .sec{ padding-block:52px 12px; }
@@ -825,7 +863,7 @@
     .coin .links .btn{ width:100%; justify-content:center; }
     .cartridge .chip{ width:66px; height:66px; }
     .cdg-actions .cdg-btn{ flex-basis:calc(50% - 4px); }
-    .term pre{ min-height:120px; font-size:12px; }
+    .term pre{ font-size:12px; }
     .mission-top h3{ font-size:.86rem; min-width:0; }
   }
 
@@ -904,16 +942,18 @@
 
     <div class="side-op">
       <div class="cs">Operator</div>
-      <div class="lv">A. ALJOHRY &middot; LVL 07</div>
+      <div class="lv"><span>A. ALJOHRY</span><span class="lvn">LVL 07</span></div>
       <div class="xp" aria-hidden="true"><i></i></div>
     </div>
-    <div class="side-ops" aria-hidden="true">
-      <div class="r amber"><span>Signal</span><i><b style="width:86%"></b></i></div>
-      <div class="r"><span>Uplink</span><i><b style="width:64%"></b></i></div>
-      <div class="r"><span>Shield</span><i><b style="width:95%"></b></i></div>
+    <div class="side-metrics">
+      <p class="cs">System Metrics</p>
+      <div class="side-ops" aria-hidden="true">
+        <div class="r amber"><span>Signal</span><i><b style="width:86%"></b></i></div>
+        <div class="r"><span>Uplink</span><i><b style="width:64%"></b></i></div>
+        <div class="r"><span>Shield</span><i><b style="width:95%"></b></i></div>
+      </div>
+      <div class="side-clock" id="side-clock">LOCAL --:--</div>
     </div>
-    <div class="side-clock" id="side-clock">LOCAL --:--</div>
-    <div class="side-rail" aria-hidden="true"></div>
 
     <div class="sys">
       <span class="dot"></span>SYSTEM STATUS<br>
@@ -999,17 +1039,18 @@
           <div class="stat"><div class="stat-top"><span class="stat-name">Reverse Engineering</span><span class="stat-val">66</span></div><div class="meter m-gold" style="--v:66"><i></i></div></div>
           <div class="stat"><div class="stat-top"><span class="stat-name">Cloud Security (AWS / Azure)</span><span class="stat-val">72</span></div><div class="meter m-gold" style="--v:72"><i></i></div></div>
         </div>
-        <div class="panel reveal">
+        <div class="panel reveal cb-panel">
           <p class="eyebrow">Class &amp; Background</p>
-          <p style="color:var(--white);margin:0 0 14px">Network &amp; Information Security Engineer specializing in offensive security and security automation. Sole designer and developer of <b style="color:var(--green)">PENTRA</b> and <b style="color:var(--green)">ADIS</b>.</p>
-          <div class="mission-meta" style="margin:0">
+          <p class="cb-lede">Network &amp; Information Security Engineer specializing in offensive security and security automation. Sole designer and developer of <b style="color:var(--green)">PENTRA</b> and <b style="color:var(--green)">ADIS</b>.</p>
+          <div class="kv">
             <div><b>Class</b>Offensive / Red Team</div>
             <div><b>Region</b>Amman, Jordan</div>
-            <div><b>Guild</b>PSUT · CSC</div>
-            <div><b>Languages</b>Arabic (native) · English (pro)</div>
-            <div><b>Degree</b>B.Eng. NIS Engineering</div>
-            <div><b>Status</b><span style="color:var(--success)">Available for contracts</span></div>
+            <div><b>University</b>Al-Hussein Bin Talal University</div>
+            <div><b>Languages</b>Arabic (native) &middot; English (pro)</div>
+            <div><b>Degree</b>B.Eng. Network &amp; Information Security Engineering</div>
+            <div><b>Graduation</b>2026</div>
           </div>
+          <div class="kv-status"><span class="dot-ok"></span> Available for contracts</div>
         </div>
       </div>
     </section>
@@ -1107,11 +1148,18 @@
         <div class="cartridge reveal">
           <div class="head">
             <div class="chip"><i class="sprite" data-sprite="cart" data-px="6" style="color:var(--green)"></i><span class="lb">01</span></div>
-            <div>
+            <div class="cart-body">
               <h3>PENTRA</h3>
               <p class="cat">Penetration Testing Platform</p>
               <p>Self-developed offensive security platform (FastAPI + React/TypeScript) covering reconnaissance, scanning, an intercepting proxy, Intruder-style fuzzing, broken access control testing, WAF fingerprinting, and 403-bypass chains in one workflow.</p>
             </div>
+          </div>
+          <div class="cart-info">
+            <p class="ci-eye">Game Info</p>
+            <div class="ci"><b>Type</b>Offensive platform</div>
+            <div class="ci"><b>Stack</b>FastAPI &middot; React &middot; TypeScript</div>
+            <div class="ci"><b>Status</b><span style="color:var(--success)">Shipped &middot; in use</span></div>
+            <div class="ci"><b>Cartridge</b>CART-01</div>
           </div>
           <div class="boot"><span>&gt; CARTRIDGE DETECTED </span><span>&gt; LOADING... </span><span>&gt; SYSTEM READY</span></div>
           <details>
@@ -1129,11 +1177,18 @@
         <div class="cartridge reveal">
           <div class="head">
             <div class="chip"><i class="sprite" data-sprite="disk" data-px="6" style="color:var(--teal)"></i><span class="lb">02</span></div>
-            <div>
+            <div class="cart-body">
               <h3>ADIS</h3>
               <p class="cat">AI-Driven Intrusion Detection System</p>
               <p>Adaptive defensive layer combining an Autoencoder behavioural baseline, a Negative Selection Algorithm, and a Deep Q-Network response agent to detect novel attacks without signatures — evaluated adversarially against PENTRA attack modules.</p>
             </div>
+          </div>
+          <div class="cart-info">
+            <p class="ci-eye">Game Info</p>
+            <div class="ci"><b>Type</b>AI defense layer</div>
+            <div class="ci"><b>Stack</b>Python &middot; DQN &middot; NSA</div>
+            <div class="ci"><b>Status</b><span style="color:var(--amber)">Research build</span></div>
+            <div class="ci"><b>Cartridge</b>CART-02</div>
           </div>
           <div class="boot"><span>&gt; CARTRIDGE DETECTED </span><span>&gt; LOADING... </span><span>&gt; SYSTEM READY</span></div>
           <details>
@@ -1201,7 +1256,7 @@
     </section>
 
     <!-- ===== TERMINAL ===== -->
-    <section class="sec wrap">
+    <section class="sec wrap term-sec">
       <div class="term reveal">
         <div class="tt-bar"><i></i><i></i><i></i> &nbsp; aljohry@ops — /player/abdalezez</div>
         <pre id="term"></pre>

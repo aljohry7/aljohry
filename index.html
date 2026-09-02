@@ -519,7 +519,10 @@
   }
   .kv-status .dot-ok{ width:7px; height:7px; flex:none; background:var(--success); box-shadow:0 0 8px -1px var(--success); }
   @media (max-width:520px){ .kv{ grid-template-columns:1fr; } }
-  .mission li{ position:relative; padding-left:22px; margin-bottom:9px; color:var(--white); max-width:74ch; font-size:var(--text-base); line-height:1.7; }
+  /* full card width — the 74ch cap was the empty right-side region; the card
+     is already bounded by .wrap's max-width, so objectives wrap to the whole
+     interior like the Games Cartridge description does inside its column */
+  .mission li{ position:relative; padding-left:22px; margin-bottom:9px; color:var(--white); font-size:var(--text-base); line-height:1.7; }
   .mission li::before{ content:">"; position:absolute; left:0; color:var(--green); font-family:var(--mono); }
   .mission.is-locked{ opacity:.55; }
   .mission.is-locked h3{ color:var(--muted); }

@@ -775,8 +775,16 @@
   @media (prefers-reduced-motion: no-preference){
     .coin .slot{ animation:pulse 1.6s steps(1) infinite; }
   }
-  .coin .links{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
-  @media (min-width:820px){ .coin .links{ display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:560px; margin:24px auto 0; } }
+  /* consistent contact buttons: primary email spans full width, the three
+     secondary links sit in an equal 3-col row; every button is the same
+     height and centred, wrapping (the phone number) never changes the box */
+  .coin .links{ display:flex; flex-direction:column; gap:14px; max-width:560px; margin:24px auto 0; }
+  .coin .links .btn{ width:100%; min-height:58px; padding:12px 12px; justify-content:center; text-align:center;
+    font-size:clamp(8px, .18vw + 6.8px, 9.5px); letter-spacing:.4px; line-height:1.4; white-space:nowrap; }
+  @media (min-width:560px){
+    .coin .links{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .coin .links .btn:first-child{ grid-column:1 / -1; }
+  }
 
   /* ============================================================
      FOOTER
